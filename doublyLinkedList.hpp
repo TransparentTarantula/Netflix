@@ -5,56 +5,57 @@
 
 using namespace std;
 
-//pofile - category - movies each have doublylinkedlist
+//profile - category - movies each have doublylinkedlist
 template <typename Type>
 class DoublyLinkedList {
-public:
+	public:
 	DoublyLinkedList() {
 		n = 0;
 		header  = nullptr;
-		trailer = nullptr;
+		tail = nullptr;
 	}
-	~DoublyLinkedList() {
-
-	}
+	
 	unsigned int size() {
 		return n;
 	}
+
 	bool isEmpty() {
 		return n == 0 ? true : false;
 	}
-	void insert(Type& e) {
-		/*bool tempBool{ true };
+
+	void insert(Type& item) {
+		bool tempBool = true ;
 		if (n == 0) {
-			Node* temp = new Node;
-			header = temp;
-			trailer = temp;
-			temp->data = e;
-			temp->next = nullptr;
-			temp->prev = nullptr;
+			Node* node = new Node;
+			node->data = item;
+			node->next = nullptr;
+			node->prev = nullptr;
+			header = node;
+			tail = node;
 			n++;
 			tempBool = false;
 		}
 		else {
-			t = header;
+			Node* temp = header;
 			for (unsigned short i = 0; i < n; i++) {
-				if (t->data == e) {
-					t->data = e;
+				if (temp->data == item) {
+					temp->data = item;
 					tempBool = false;
 				}
-				t = t->next;
+				temp = temp->next;
 			}
 			if (tempBool == true) {
 				Node* temp = new Node;
-				temp->data = e;
+				temp->data = item;
 				temp->next = nullptr;
-				temp->prev = trailer;
+				temp->prev = tail;
 				temp->prev->next = temp;
-				trailer = temp;
+				tail = temp;
 				n++;
 			}
-		}*/
+		}
 	}
+
 	unsigned int find(Type& e) {
 		/*bool temp = true;
 		t = header;
@@ -70,6 +71,7 @@ public:
 		}
 		return 0;*/
 	}
+
 	void erase(unsigned int index) {
 		/*erases movie from a person's profile*/
 	}
@@ -83,15 +85,16 @@ public:
 	}
 
 	Type& getHead() {
+		current = header;
 		return this->header->data;
 	}
 
 	Type& getTail() {
-		return this->trailer->data;
+		return this->tail->data;
 	}
 
 	Type& operator[](const unsigned int index) {
-		this->temp = this->header;
+		Node* temp = this->header;
 		for (int i = 0; i < index; i++) {
 			if (this->temp == nullptr) {
 				throw out_of_range("out of range biatch");
@@ -102,7 +105,19 @@ public:
 		return temp->data;
 	}
 
-private:
+	void nextNode() {
+		current = current->next;
+	}
+
+	Type& getCurrentNode() {
+		return current->data;
+	}
+
+	void reset(){
+		this->current = header;
+	}
+
+	private:
 	struct Node {
 		Type data;
 		Node* prev;
@@ -111,6 +126,6 @@ private:
 
 	unsigned int n;
 	Node* header;
-	Node* trailer;
-	Node* temp;
+	Node* tail;
+	Node* current;
 };

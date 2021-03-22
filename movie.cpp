@@ -1,7 +1,5 @@
 #include <iostream>
-
 #include "movie.hpp"
-#include "category.hpp"
 
 using namespace std;
 
