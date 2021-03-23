@@ -57,7 +57,7 @@ void profile::addMovie(movie& movie) {
 	}
 	else{
 		string genre = movie.getCategory(); // Holds the new movie's category
-		DoublyLinkedList<category> temp = categories;
+		DoublyLinkedList<category> temp = categories; // Holds the categories temporary
 		
 		/* 
 		* If head of doubly linked list matches the inserted movie's category, insert that movie into its list.
@@ -68,14 +68,9 @@ void profile::addMovie(movie& movie) {
 			totalMovies++; // Count total number of movies in profile
 		}
 		else{
-			bool notFound = true;
+			bool notFound = true; // A switch to tell when no category matches the movie
 			string currentCategory;
-			temp.nextNode();
-			/*newCategory = movie.getCategory(); // Assign new category
-			newCategory.insertMovie(movie); // Insert the new movie into new category
-			categories.insert(newCategory); // Insert new category into doubly linked list categories
-			totalMovies++; // Count total number of movies in profile
-			numCategories++; // Increment count of categories in profile */
+			temp.nextNode(); // points to the next node
 			
 			for(int i = 1; i < categories.size(); i++){
 				currentCategory = temp.getCurrentNode().getName();
@@ -86,7 +81,7 @@ void profile::addMovie(movie& movie) {
 					notFound = false; // Set it false if match found
 					break;
 				} 
-				temp.nextNode(); // Moves to the node
+				temp.nextNode(); // points to the next node
 			} 									
 
 			/* If category not found, insert new category */
