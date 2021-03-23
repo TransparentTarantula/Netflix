@@ -31,6 +31,7 @@ class DoublyLinkedList {
 			node->next = nullptr;
 			node->prev = nullptr;
 			header = node;
+			current = node;
 			tail = node;
 			n++;
 			tempBool = false;
@@ -54,6 +55,7 @@ class DoublyLinkedList {
 				n++;
 			}
 		}
+
 	}
 
 	unsigned int find(Type& e) {
@@ -85,7 +87,6 @@ class DoublyLinkedList {
 	}
 
 	Type& getHead() {
-		current = header;
 		return this->header->data;
 	}
 
@@ -111,10 +112,6 @@ class DoublyLinkedList {
 
 	Type& getCurrentNode() {
 		return current->data;
-	}
-
-	void reset(){
-		this->current = header;
 	}
 
 	private:

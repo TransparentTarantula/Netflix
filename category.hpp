@@ -1,6 +1,7 @@
 #pragma once
 #include <stdio.h>
 #include <string>
+#include <iostream>
 
 #include "movie.hpp"
 #include "doublyLinkedList.hpp"
@@ -16,7 +17,7 @@ class category {
 	void addMovie(string name, short year, string rating, short ranking);
 	void removeMovie(int index);
 	void insertMovie(movie& movie);
-	void displayMovie();
+	void displayMovieList();
 	movie& getMovieByIndex(int index);
 
 	category& setName(string name);

@@ -1,6 +1,7 @@
 #pragma once
 #include <stdio.h>
 #include <string>
+#include <iostream>
 
 #include "category.hpp"
 #include "movie.hpp"
@@ -26,7 +27,7 @@ public:
 	void removeMovie();
 	void editMovie();
 	void findMovie();
-	void DisplayList();
+	void DisplayMovies();
 
 	profile& setFirst(string first);
 	profile& setLast(string last);

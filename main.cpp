@@ -123,7 +123,7 @@ void personProfile() {
 			personProfile();
 		}
 		else{
-			currentProfile.DisplayList();
+			currentProfile.DisplayMovies();
 			personProfile();
 		}
 		option = 0;

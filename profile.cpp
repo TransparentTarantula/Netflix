@@ -1,5 +1,3 @@
-#include <string>
-#include <iostream>
 #include "profile.hpp"
 
 using namespace std;
@@ -49,6 +47,7 @@ void profile::addMovie(movie& movie) {
 	/* adds movie to person's profile */
 	category newCategory;
 
+	// If no categories exist for the first time, create new one
 	if(numCategories == 0){
 		newCategory = movie.getCategory(); // Assign new category
 		newCategory.insertMovie(movie); // Insert the new movie into new category
@@ -61,49 +60,44 @@ void profile::addMovie(movie& movie) {
 		DoublyLinkedList<category> temp = categories;
 		
 		/* 
-		* If head of doubly linked list matches the inserted movie's category, insert that movie into
-		* its list.
+		* If head of doubly linked list matches the inserted movie's category, insert that movie into its list.
+		* Else, insert the movie into its category or create a new one if needed
 		*/
-		
 		if(categories.getHead().getName() == genre){
 			categories.getHead().addMovie(movie.getName(), movie.getYear(), movie.getRating(), movie.getRanking());
 			totalMovies++; // Count total number of movies in profile
 		}
 		else{
-			bool notFound = false;
+			bool notFound = true;
 			string currentCategory;
-			newCategory = movie.getCategory(); // Assign new category
+			temp.nextNode();
+			/*newCategory = movie.getCategory(); // Assign new category
 			newCategory.insertMovie(movie); // Insert the new movie into new category
 			categories.insert(newCategory); // Insert new category into doubly linked list categories
 			totalMovies++; // Count total number of movies in profile
-			numCategories++; // Increment count of categories in profile
+			numCategories++; // Increment count of categories in profile */
 			
-			//for(int i = 0; i < numCategories; i++){
-			//	currentCategory = temp.getCurrentNode().getName(); // Get current category
-
-			//	/* Insert the movie in the specifiied category */
-			//	if(currentCategory == genre){
-			//		temp.getHead().addMovie(movie.getName(), movie.getYear(), movie.getRating(), movie.getRanking());
-			//		totalMovies++; // Count total number of movies in profile
-			//		notFound = true; // Set it false
-			//		cout << "1";
-			//		break;
-			//	} 
-			//} 
-			//temp.nextNode(); // Moves to the node
-													
-			//}
+			for(int i = 1; i < categories.size(); i++){
+				currentCategory = temp.getCurrentNode().getName();
+				/* Insert the movie in the specifiied category */
+				if(currentCategory == genre){
+					temp.getCurrentNode().addMovie(movie.getName(), movie.getYear(), movie.getRating(), movie.getRanking());
+					totalMovies++; // Count total number of movies in profile
+					notFound = false; // Set it false if match found
+					break;
+				} 
+				temp.nextNode(); // Moves to the node
+			} 									
 
 			/* If category not found, insert new category */
-			/*if(notFound){
+			if(notFound){
 				newCategory = movie.getCategory(); // Assign new category
 				newCategory.insertMovie(movie); // Insert the new movie into new category
 				categories.insert(newCategory); // Insert new category into doubly linked list categories
 				totalMovies++; // Count total number of movies in profile
 				numCategories++; // Increment count of categories in profile
-			}*/
+			}
 		}
-		//cout << categories.getHead().getName();
 	}
 }
 
@@ -119,18 +113,18 @@ void profile::findMovie() {
 	/*finds a movie in a person's profile*/
 }
 
-void profile::DisplayList() {
+void profile::DisplayMovies() {
 	DoublyLinkedList<category> temp = categories; // Temporary holds categories
-	category currentList;
+	category currentCategory; // object holds the current category
 	cout << "\nMovies in queue by genres" << endl << endl;
 
-	for(int i = 0; i < numCategories; i++){
-		currentList = temp.getCurrentNode();
-		cout << currentList.getName() << endl;
-		
-		temp.nextNode();
+	// Loops to prints out the movies in queue by genre
+	for(int i = 0; i < categories.size(); i++){
+		currentCategory = temp.getCurrentNode(); // Gets the current node that is pointed in the list
+		cout << currentCategory.getName() << ":" << endl;
+		currentCategory.displayMovieList(); // Prints the movies from the list
+		temp.nextNode(); // Moves to the next node
 	}
-	cout << endl << endl;
 }
 
 profile& profile::setFirst(string first) {

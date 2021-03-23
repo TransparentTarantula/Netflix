@@ -1,4 +1,3 @@
-#include <iostream>
 #include "movie.hpp"
 
 using namespace std;
@@ -9,26 +8,26 @@ movie::movie() {
 
 movie::movie(string name, int _year, string _rating, int _ranking, string _category) {
 	this->name = name;
-	year = _year;
-	rating = _rating;
-	ranking = _ranking;
-	category = _category;
+	this->year = _year;
+	this->rating = _rating;
+	this->ranking = _ranking;
+	this->category = _category;
 }
 
 string movie::getName() {
-	return name;
+	return this->name;
 }
 string movie::getRating() {
-	return rating;
+	return this->rating;
 }
 string movie::getCategory() {
-	return category;
+	return this->category;
 }
 int movie::getYear() {
-	return year;
+	return this->year;
 }
 int movie::getRanking() {
-	return ranking;
+	return this->ranking;
 }
 movie& movie::setName(string name) {
 	this->name = name;

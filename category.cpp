@@ -13,7 +13,7 @@ category::category(string name) {
 }
 
 int category::size() {
-	return numOfMovies;
+	return this->numOfMovies;
 }
 
 void category::addMovie(string name, short year, string rating, short ranking) {
@@ -32,9 +32,16 @@ void category::insertMovie(movie& movie) {
 	numOfMovies++; // Increment count of movie for the category
 }
 
-void category::displayMovie() {
+void category::displayMovieList() {
 	DoublyLinkedList<movie> temp = movies;
-
+	movie currentMovie;
+	
+	for(int i = 0; i < movies.size(); i++){
+		currentMovie = temp.getCurrentNode();
+		cout << currentMovie.getName() << endl;
+		temp.nextNode();
+	}
+	cout << endl;
 }
 
 //movie& category::getMovieByIndex(int index) {
