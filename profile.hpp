@@ -1,8 +1,10 @@
 #pragma once
 #include <stdio.h>
 #include <string>
+#include <iostream>
 
 #include "category.hpp"
+#include "movie.hpp"
 #include "doublyLinkedList.hpp"
 
 using namespace std;
@@ -10,6 +12,7 @@ using namespace std;
 class profile {
 public:
 	profile();
+
 	profile(string label, string first, string last, int age);
 	profile(string label, string first, string last, int age, profile& anotherProfile);
 
@@ -20,10 +23,11 @@ public:
 	int getAllMovies();
 	int getAllCategories();
 
-	void addMovie();
+	void addMovie(movie& movie);
 	void removeMovie();
 	void editMovie();
 	void findMovie();
+	void DisplayMovies();
 
 	profile& setFirst(string first);
 	profile& setLast(string last);
@@ -42,6 +46,5 @@ private:
 	string fName;
 	string lName;
 
-	//DoublyLinkedList<category> categories;
-
+	DoublyLinkedList<category> categories;
 };

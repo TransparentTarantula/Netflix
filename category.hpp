@@ -1,33 +1,32 @@
 #pragma once
 #include <stdio.h>
 #include <string>
+#include <iostream>
 
 #include "movie.hpp"
-#include "profile.hpp"
 #include "doublyLinkedList.hpp"
 
 using namespace std;
 
 class category {
-public:
+	public:
 	category();
 	category(string name);
+
+	int size();
 	void addMovie(string name, short year, string rating, short ranking);
 	void removeMovie(int index);
 	void insertMovie(movie& movie);
-
-	void setName(string name);
-	string& getName();
-	
-	bool operator== (category& rhs);
-
+	void displayMovieList();
 	movie& getMovieByIndex(int index);
 
-	int size();
-	
+	category& setName(string name);
+	string& getName();
+
+	bool operator== (category& rhs);
 	friend ostream& operator<<(ostream&, category&);
 
-private:
+	private:
 	string name;
 	int numOfMovies;
 	DoublyLinkedList<movie> movies;
