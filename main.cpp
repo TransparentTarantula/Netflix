@@ -28,10 +28,11 @@ Examples:
 	Movie movie1("A", 2010, "PG", 1);
 */
 enum { horror, family, suspense, comedy, action, thriller } category;
-short numProfile{ 0 }, LISTnumProfile{ 0 };
-bool running{ true };
+short user, numProfile = 0;
+bool running = true;
 profile list[10];
-short option{ NULL };
+profile currentProfile;
+short option = 0;
 string newName, newCategory, newRating, ratingOption, nameToDelete, yearToDelete;
 int newYear, newRanking;
 
@@ -56,13 +57,12 @@ int main() {
 
 void mainMenu() {
 	cout << "\nWelcome to the Netflix Movie Menu! Please select (or create) a profile:\n";
-	//cout << numProfile << endl;
 	if (numProfile == 0) {
 		cout << numProfile + 1 << ". Add New Profile" << endl;
 		cout << numProfile + 2 << ". Exit Program" << endl;
 	}
 	else { //else if number entered is a number of a profile
-			//option = NULL
+			//option = 0
 			//personProfile();
 		for (short i = 0; i < numProfile; i++) {
 			cout << i + 1 << ". " << list[i].getLabel() << endl;
@@ -70,9 +70,12 @@ void mainMenu() {
 		cout << numProfile + 1 << ". Add New Profile" << endl;
 		cout << numProfile + 2 << ". Exit Program" << endl;
 	}
+	cout << "choice: ";
 	cin >> option;
 
-	if (option == LISTnumProfile) {
+	if (option <= numProfile) {
+		user = option;
+		currentProfile = list[user-1];
 		personProfile();
 	}
 
@@ -85,72 +88,74 @@ void mainMenu() {
 		cout << "Exit Program. Goodbye!";
 	}
 
-	option = NULL;
+	option = 0;
 
 	if(running)
 		mainMenu();
 }
 
 void addPersonProfile() {
-	cout << "Enter Profile Label: ";
+	cout << "\n\nEnter Profile Label: ";
 	cin >> newProfileLabel;
 	cout << "Enter First Name: ";
 	cin >> newProfileFName;
 	cout << "Enter Last Name: ";
 	cin >> newProfileLName;
 	cout << "Enter Age: ";
-	cin >> newProfileAge; cout << endl;
-	numProfile++;
+	cin >> newProfileAge; 
+	cout << endl;
 	cout << "Profile Created!" << endl << endl;
 	profile temp(newProfileLabel, newProfileFName, newProfileLName, newProfileAge);
-	list[LISTnumProfile] = temp;
-	LISTnumProfile++;
+	list[numProfile] = temp;
+	numProfile++;
 }
 
 void personProfile() {
-	cout << list[LISTnumProfile - 1].getLabel() << "'s Profile Movie Queue" << endl;
+	cout << endl << currentProfile.getLabel() << "'s Profile Movie Queue" << endl;
 	cout << "1. Display Movie Queue\n2. Add Movie to Queue\n3. Edit Movie in Queue\n4. Remove Movie from Queue\n5. Search for Movie in Queue\n6. Exit Profile" << endl;
+	cout << "choice: ";
 	cin >> option;
-	//if(numOfMoviesInQueue[person] == 0){
-		cout << "The movie queue is empty! Please add movies to the queue.";
-		//personProfile();
-	//}
-	
-	option = NULL;
-	
+
 	switch (option) {
 	case 1:
-		option = NULL;
+		if (currentProfile.getAllMovies() == 0){
+			cout << "\nThe movie queue is empty! Please add movies to the queue." << endl << endl;
+			personProfile();
+		}
+		else{
+			currentProfile.DisplayMovies();
+			personProfile();
+		}
+		option = 0;
 		break;
 	case 2:
-		option = NULL;
+		mainAddMovie();
+		option = 0;
 		break;
 	case 3:
 		cout << "Enter rating: ";
 		cin >> ratingOption;
-		option = NULL;
+		option = 0;
 		filterByRating(ratingOption, option);
 		break;
 	case 4:
-		option = NULL;
+		option = 0;
 		break;
 	case 5:
-		option = NULL;
+		option = 0;
 		break;
 	case 6:
-		option = NULL;
+		option = 0;
 		break;
 	default:
-		option = NULL;
+		option = 0;
 		break;
 	}
 }
 
 void mainAddMovie() {
-
-	cout << "Enter movie name: ";
+	cout << "\n\nEnter movie name: ";
 	cin >> newName;
-	cout << endl;
 
 	cout << "Enter year: ";
 	cin >> newYear;
@@ -159,16 +164,14 @@ void mainAddMovie() {
 		cin.ignore();
 		cout << "Not a valid year. Try again." << endl;
 		cout << "Enter year: ";
+		cin >> newYear;
 	}
-	cout << endl;
 
 	cout << "Category: ";
 	cin >> newCategory;
-	cout << endl;
 
 	cout << "Rating: ";
 	cin >> newRating;
-	cout << endl;
 
 	cout << "Ranking (1-5): ";
 	cin >> newRanking;
@@ -177,13 +180,14 @@ void mainAddMovie() {
 		cin.ignore();
 		cout << "Not a valid rating. Try again." << endl;
 		cout << "Ranking: ";
+		cin >> newRanking;
 	}
-	cout << endl;
+	cout << endl << endl;
+	movie film(newName, newYear, newRating, newRanking, newCategory);
+	currentProfile.addMovie(film);
+	list[user-1] = currentProfile;
 
 	cout << "Movie added to the Queue!" << endl;
-	option = NULL;
-
-	
 	personProfile();
 }
 
