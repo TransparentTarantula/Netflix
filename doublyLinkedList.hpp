@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdexcept>
 #include <exception>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -74,8 +75,28 @@ class DoublyLinkedList {
 		return 0;*/
 	}
 
-	void erase(unsigned int index) {
+	void erase(Type& item) {
 		/*erases movie from a person's profile*/
+        bool tempBool = true;
+        Node* temp = header;
+        Node* node = new Node;
+        node->data = item;
+        if (temp->data == node->data)
+        {
+            temp = node->next;
+        }
+        if (node->next != NULL)
+        {
+            node->next->prev = node->prev;
+        }
+        if (node->prev != NULL)
+        {
+            node->prev->next = node->next;
+        }
+        node = NULL;
+        free (node);
+        n--;
+        return;
 	}
 
 	/*void show() {

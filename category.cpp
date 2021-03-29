@@ -22,8 +22,25 @@ void category::addMovie(string name, short year, string rating, short ranking) {
 	numOfMovies++;
 }
 
-void category::removeMovie(int index) {
+int category::removeMovie(int index, string name, int year) {
 	/*remove movie from person[index] profile*/
+    DoublyLinkedList<movie> temp = movies;
+    movie currentMovie;
+    for (int i = 0; i < movies.size(); i++)
+    {
+        currentMovie = temp.getCurrentNode();
+        if ((name == currentMovie.getName()) && (year == currentMovie.getYear()))
+        {
+            printf("%s",currentMovie.getName().c_str());
+            movies.erase(currentMovie);
+            numOfMovies--;
+            return 1;
+        }
+        else{
+            temp.nextNode();
+        }
+    }
+    return 0;
 }
 
 void category::insertMovie(movie& movie) {

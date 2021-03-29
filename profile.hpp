@@ -24,9 +24,9 @@ public:
 	int getAllCategories();
 
 	void addMovie(movie& movie);
-	void removeMovie();
+	void removeMovie(int index, string name, int year);
 	void editMovie();
-	void findMovie();
+	void findMovie(string,int);
 	void DisplayMovies();
 
 	profile& setFirst(string first);

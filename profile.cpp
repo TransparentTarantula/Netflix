@@ -96,16 +96,39 @@ void profile::addMovie(movie& movie) {
 	}
 }
 
-void profile::removeMovie() {
+void profile::removeMovie(int index, string name, int year) {
 	/*removes movie from person profile*/
+    DoublyLinkedList<category> temp = categories; // Temporary holds categories
+    category currentCategory; // object holds the current category
+    for(int i = 0; i < categories.size(); i++)
+    {
+        currentCategory = temp.getCurrentNode();
+        if (currentCategory.removeMovie(index,name,year) == 1)
+        {
+            totalMovies--;
+            break;
+        }
+        else
+        {
+            temp.nextNode();
+        }
+    }
 }
 
 void profile::editMovie() {
 	/*edits a movie in a persons profile*/
+    
 }
 
-void profile::findMovie() {
+void profile::findMovie(string name,int year) {
 	/*finds a movie in a person's profile*/
+    DoublyLinkedList<category> temp = categories; // Temporary holds categories
+    category currentCategory; // object holds the current category
+    for(int i = 0; i < categories.size(); i++)
+    {
+        currentCategory = temp.getCurrentNode();
+        
+    }
 }
 
 void profile::DisplayMovies() {

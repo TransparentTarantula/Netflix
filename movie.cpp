@@ -42,7 +42,7 @@ movie& movie::setYear(int year) {
 	}
 }
 movie& movie::setRating(string rating) {
-	if ((rating != "G") && (rating != "PG") && (rating != "PG-13") && (rating != "R") && (rating != "NC-17"))
+	if ((rating != "G") || (rating != "PG") || (rating != "PG-13") || (rating != "R") || (rating != "NC-17"))
 		throw invalid_argument("invalid rating");
 	else {
 		this->rating = rating;

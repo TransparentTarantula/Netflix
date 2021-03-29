@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string.h>
 
 #include "doublyLinkedList.hpp"
 #include "movie.hpp"
@@ -139,6 +140,7 @@ void personProfile() {
 		filterByRating(ratingOption, option);
 		break;
 	case 4:
+        removeAMovie();
 		option = 0;
 		break;
 	case 5:
@@ -234,7 +236,10 @@ void removeAMovie() {
 	cin >> nameToDelete;
 	cout << "Enter year: ";
 	cin >> yearToDelete;
+    int year = stoi(yearToDelete);
+    currentProfile.removeMovie(numProfile, nameToDelete, year);
 	if (/*success*/1) {
-		cout << nameToDelete << "has been removed from your queue!" << endl;
+		cout << nameToDelete << " has been removed from your queue!" << endl;
 	}
+    personProfile();
 }

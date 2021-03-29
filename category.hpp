@@ -15,7 +15,7 @@ class category {
 
 	int size();
 	void addMovie(string name, short year, string rating, short ranking);
-	void removeMovie(int index);
+	int removeMovie(int index, string name, int year);
 	void insertMovie(movie& movie);
 	void displayMovieList();
 	movie& getMovieByIndex(int index);
