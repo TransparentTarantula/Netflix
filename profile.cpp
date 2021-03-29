@@ -47,7 +47,7 @@ void profile::addMovie(movie& movie) {
 	/* adds movie to person's profile */
 	/* If no categories exist for the first time, create new one */
 	if(numCategories == 0){
-		insertIntoCategories(movie);
+		addCategories(movie);
 	}
 	else{
 		string genre = movie.getCategory(); // Holds the new movie's category
@@ -58,7 +58,7 @@ void profile::addMovie(movie& movie) {
 		* Else, insert the movie into its category or create a new one if needed
 		*/
 		if(categories.getHead().getName() == genre){
-			categories.getHead().addMovie(movie.getName(), movie.getYear(), movie.getRating(), movie.getRanking());
+			categories.getHead().addMovie(movie.getName(), movie.getYear(), movie.getRating(), movie.getRanking(), movie.getCategory());
 			totalMovies++; // Count total number of movies in profile
 		}
 		else{
@@ -70,7 +70,7 @@ void profile::addMovie(movie& movie) {
 				currentCategory = temp.getCurrentNode().getName();
 				/* Insert the movie in the specifiied category */
 				if(currentCategory == genre){
-					temp.getCurrentNode().addMovie(movie.getName(), movie.getYear(), movie.getRating(), movie.getRanking());
+					temp.getCurrentNode().addMovie(movie.getName(), movie.getYear(), movie.getRating(), movie.getRanking(), movie.getCategory());
 					totalMovies++; // Count total number of movies in profile
 					notFound = false; // Set it false if match found
 					break;
@@ -80,13 +80,13 @@ void profile::addMovie(movie& movie) {
 
 			/* If category not found, insert new category list */
 			if(notFound){
-				insertIntoCategories(movie);
+				addCategories(movie);
 			}
 		}
 	}
 }
 
-void profile::insertIntoCategories(movie& movie){
+void profile::addCategories(movie& movie){
 	category newGenre = movie.getCategory(); // Assign new category
 	newGenre.insertMovie(movie); // Insert the new movie into new category
 	categories.insert(newGenre); // Insert new category into doubly linked list categories

@@ -61,24 +61,31 @@ movie& movie::setCategory(string category) {
 	this->category = category;
 	return *this;
 }
-bool movie::operator==(movie& rhs) {
+bool movie::operator== (movie& rhs) {
 	return ((this->name == rhs.name) && (this->year == rhs.year));
 }
-bool movie::operator<(movie& rhs) {
+bool movie::operator< (movie& rhs) {
 	return this->ranking < rhs.ranking;
 }
-bool movie::operator<=(movie& rhs) {
+bool movie::operator<= (movie& rhs) {
 	return this->ranking <= rhs.ranking;
 }
-bool movie::operator>(movie& rhs) {
+bool movie::operator> (movie& rhs) {
 	return this->ranking > rhs.ranking;
 }
-bool movie::operator>=(movie& rhs) {
+bool movie::operator>= (movie& rhs) {
 	return this->ranking >= rhs.ranking;
 }
-ostream& operator<<(ostream& lhs, const movie& rhs) {
-	lhs << rhs.name << endl << "Year: " << rhs.year << endl 
-		<< "Category: " << rhs.category << endl << "Rated: " 
-		<< rhs.rating << endl << "Ranked: " << rhs.ranking << endl;
+ostream& operator<< (ostream& lhs, movie& rhs) {
+	cout << "---------------------------" << endl;
+	lhs << rhs.getName() << endl 
+	    << "Year: " << rhs.getYear() << endl 
+		<< "Category: " << rhs.getCategory() << endl 
+		<< "Rated: " << rhs.getRating() << endl;
+	string p = "";
+	for(unsigned short i = 0; i < rhs.getRanking(); i++){
+		p.append("*");
+	}
+	lhs << "Rank: " << p << endl;
 	return lhs;
 }

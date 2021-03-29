@@ -22,13 +22,13 @@ public:
 	movie& setRanking(int ranking);
 	movie& setCategory(string category);
 
-	bool operator==(movie& rhs);
-	bool operator<(movie& rhs);
-	bool operator<=(movie& rhs);
-	bool operator>(movie& rhs);
-	bool operator>=(movie& rhs);
+	bool operator== (movie& rhs);
+	bool operator< (movie& rhs);
+	bool operator<= (movie& rhs);
+	bool operator> (movie& rhs);
+	bool operator>= (movie& rhs);
 
-	friend ostream& operator<<(ostream&, const movie&);
+	friend ostream& operator<<(ostream& lhs, movie& rhs);
 
 private:
 	int year;

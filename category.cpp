@@ -16,8 +16,8 @@ int category::size() {
 	return this->numOfMovies;
 }
 
-void category::addMovie(string name, short year, string rating, short ranking) {
-	movie film(name, year, rating, ranking, "none");
+void category::addMovie(string name, short year, string rating, short ranking, string cat) {
+	movie film(name, year, rating, ranking, cat);
 	insertMovie(film);
 }
 
@@ -37,7 +37,7 @@ void category::displayMovieList() {
 	
 	for(int i = 0; i < movies.size(); i++){
 		currentMovie = temp.getCurrentNode(); // Gets the node that is currently being pointed
-		cout << currentMovie.getName() << endl;
+		cout << currentMovie;
 		temp.getNextNode(); // Points to the next node
 	}
 	cout << endl;
