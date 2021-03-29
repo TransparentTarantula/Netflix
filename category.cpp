@@ -18,8 +18,7 @@ int category::size() {
 
 void category::addMovie(string name, short year, string rating, short ranking) {
 	movie film(name, year, rating, ranking, "none");
-	movies.insert(film);
-	numOfMovies++;
+	insertMovie(film);
 }
 
 void category::removeMovie(int index) {
@@ -27,19 +26,19 @@ void category::removeMovie(int index) {
 }
 
 void category::insertMovie(movie& movie) {
-	/*inserts movie into a list of movies that are already there*/
+	/* inserts movie into a list of movies that are already there */
 	movies.insert(movie); // Inserts movie into a list 
 	numOfMovies++; // Increment count of movie for the category
 }
 
 void category::displayMovieList() {
-	DoublyLinkedList<movie> temp = movies;
+	DoublyLinkedList<movie> temp = movies; // Temperarory holds the list of movies 
 	movie currentMovie;
 	
 	for(int i = 0; i < movies.size(); i++){
-		currentMovie = temp.getCurrentNode();
+		currentMovie = temp.getCurrentNode(); // Gets the node that is currently being pointed
 		cout << currentMovie.getName() << endl;
-		temp.nextNode();
+		temp.getNextNode(); // Points to the next node
 	}
 	cout << endl;
 }
