@@ -126,6 +126,3 @@ ostream& operator<<(ostream& lhs, Movie& rhs) {
 } // Prints out the movie with formatting
 
 #endif //!movie_hpp
-
-
-
