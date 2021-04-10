@@ -1,4 +1,4 @@
-#ifdef movieType_hpp
+#ifndef movieType_hpp
 #define movieType_hpp
 
 #include <string>
