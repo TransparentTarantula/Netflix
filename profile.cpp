@@ -45,15 +45,9 @@ int profile::getAllCategories() {
 
 void profile::addMovie(movie& movie) {
 	/* adds movie to person's profile */
-	category newCategory;
-
-	// If no categories exist for the first time, create new one
+	/* If no categories exist for the first time, create new one */
 	if(numCategories == 0){
-		newCategory = movie.getCategory(); // Assign new category
-		newCategory.insertMovie(movie); // Insert the new movie into new category
-		categories.insert(newCategory); // Insert new category into doubly linked list categories
-		totalMovies++; // Count total number of movies in profile
-		numCategories++; // Increment count of categories in profile
+		addCategories(movie);
 	}
 	else{
 		string genre = movie.getCategory(); // Holds the new movie's category
@@ -64,36 +58,40 @@ void profile::addMovie(movie& movie) {
 		* Else, insert the movie into its category or create a new one if needed
 		*/
 		if(categories.getHead().getName() == genre){
-			categories.getHead().addMovie(movie.getName(), movie.getYear(), movie.getRating(), movie.getRanking());
+			categories.getHead().addMovie(movie.getName(), movie.getYear(), movie.getRating(), movie.getRanking(), movie.getCategory());
 			totalMovies++; // Count total number of movies in profile
 		}
 		else{
 			bool notFound = true; // A switch to tell when no category matches the movie
 			string currentCategory;
-			temp.nextNode(); // points to the next node
+			temp.getNextNode(); // points to the next node
 			
 			for(int i = 1; i < categories.size(); i++){
 				currentCategory = temp.getCurrentNode().getName();
 				/* Insert the movie in the specifiied category */
 				if(currentCategory == genre){
-					temp.getCurrentNode().addMovie(movie.getName(), movie.getYear(), movie.getRating(), movie.getRanking());
+					temp.getCurrentNode().addMovie(movie.getName(), movie.getYear(), movie.getRating(), movie.getRanking(), movie.getCategory());
 					totalMovies++; // Count total number of movies in profile
 					notFound = false; // Set it false if match found
 					break;
 				} 
-				temp.nextNode(); // points to the next node
+				temp.getNextNode(); // points to the next node
 			} 									
 
-			/* If category not found, insert new category */
+			/* If category not found, insert new category list */
 			if(notFound){
-				newCategory = movie.getCategory(); // Assign new category
-				newCategory.insertMovie(movie); // Insert the new movie into new category
-				categories.insert(newCategory); // Insert new category into doubly linked list categories
-				totalMovies++; // Count total number of movies in profile
-				numCategories++; // Increment count of categories in profile
+				addCategories(movie);
 			}
 		}
 	}
+}
+
+void profile::addCategories(movie& movie){
+	category newGenre = movie.getCategory(); // Assign new category
+	newGenre.insertMovie(movie); // Insert the new movie into new category
+	categories.insert(newGenre); // Insert new category into doubly linked list categories
+	totalMovies++; // Count total number of movies in profile
+	numCategories++; // Increment count of categories in profile
 }
 
 void profile::removeMovie() {
@@ -108,7 +106,7 @@ void profile::findMovie() {
 	/*finds a movie in a person's profile*/
 }
 
-void profile::DisplayMovies() {
+void profile::displayMovies() {
 	DoublyLinkedList<category> temp = categories; // Temporary holds categories
 	category currentCategory; // object holds the current category
 	cout << "\nMovies in queue by genres" << endl << endl;
@@ -118,7 +116,7 @@ void profile::DisplayMovies() {
 		currentCategory = temp.getCurrentNode(); // Gets the current node that is pointed in the list
 		cout << currentCategory.getName() << ":" << endl;
 		currentCategory.displayMovieList(); // Prints the movies from the list
-		temp.nextNode(); // Moves to the next node
+		temp.getNextNode(); // Moves to the next node
 	}
 }
 

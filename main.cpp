@@ -27,21 +27,16 @@ Examples:
 
 	Movie movie1("A", 2010, "PG", 1);
 */
-enum { horror, family, suspense, comedy, action, thriller } category;
 short user, numProfile = 0;
-bool running = true;
 profile list[10];
 profile currentProfile;
-short option = 0;
 string newName, newCategory, newRating, ratingOption, nameToDelete, yearToDelete;
 int newYear, newRanking;
-
-string newProfileLabel, newProfileFName, newProfileLName;
-int newProfileAge;
 //void functions for different menus, only like 2 lines in main
 //doublylinkedlist of profiles here in main
 
 void mainMenu();
+void queueMenu();
 void personProfile();
 void addPersonProfile();
 void mainAddMovie();
@@ -56,20 +51,23 @@ int main() {
 }
 
 void mainMenu() {
+	bool running = true;
+	unsigned short option = 0;
+
 	cout << "\nWelcome to the Netflix Movie Menu! Please select (or create) a profile:\n";
+
 	if (numProfile == 0) {
 		cout << numProfile + 1 << ". Add New Profile" << endl;
 		cout << numProfile + 2 << ". Exit Program" << endl;
 	}
-	else { //else if number entered is a number of a profile
-			//option = 0
-			//personProfile();
+	else { 
 		for (short i = 0; i < numProfile; i++) {
 			cout << i + 1 << ". " << list[i].getLabel() << endl;
 		}
 		cout << numProfile + 1 << ". Add New Profile" << endl;
 		cout << numProfile + 2 << ". Exit Program" << endl;
 	}
+
 	cout << "choice: ";
 	cin >> option;
 
@@ -88,107 +86,126 @@ void mainMenu() {
 		cout << "Exit Program. Goodbye!";
 	}
 
-	option = 0;
-
-	if(running)
+	if(running) {
+		option = 0;
 		mainMenu();
+	}
 }
 
 void addPersonProfile() {
-	cout << "\n\nEnter Profile Label: ";
-	cin >> newProfileLabel;
+	string label, fName, lName;
+	int age;
+
+	cout << "\n\nEnter Profile label: ";
+	cin >> label;
 	cout << "Enter First Name: ";
-	cin >> newProfileFName;
+	cin >> fName;
 	cout << "Enter Last Name: ";
-	cin >> newProfileLName;
+	cin >> lName;
 	cout << "Enter Age: ";
-	cin >> newProfileAge; 
+	cin >> age; 
 	cout << endl;
 	cout << "Profile Created!" << endl << endl;
-	profile temp(newProfileLabel, newProfileFName, newProfileLName, newProfileAge);
+	profile temp(label, fName, lName, age);
 	list[numProfile] = temp;
 	numProfile++;
 }
 
 void personProfile() {
-	cout << endl << currentProfile.getLabel() << "'s Profile Movie Queue" << endl;
-	cout << "1. Display Movie Queue\n2. Add Movie to Queue\n3. Edit Movie in Queue\n4. Remove Movie from Queue\n5. Search for Movie in Queue\n6. Exit Profile" << endl;
-	cout << "choice: ";
-	cin >> option;
+	bool menu = true;
+	unsigned short choice = 0;
 
-	switch (option) {
-	case 1:
-		if (currentProfile.getAllMovies() == 0){
-			cout << "\nThe movie queue is empty! Please add movies to the queue." << endl << endl;
-			personProfile();
+	while(menu) {
+		queueMenu();
+		cout << "choice: ";
+		cin >> choice;
+
+		switch (choice) {
+		case 1:
+			if (currentProfile.getAllMovies() == 0){
+				cout << "\nThe movie queue is empty! Please add movies to the queue." << endl << endl;
+			}
+			else{
+				currentProfile.displayMovies();
+			}
+			break;
+		case 2:
+			mainAddMovie();
+			break;
+		case 3:
+			cout << "Enter rating: ";
+			cin >> ratingOption;
+			filterByRating(ratingOption, choice);
+			break;
+		case 4:
+			break;
+		case 5:
+			break;
+		case 6:
+			menu = false;
+			break;
+		default:
+			break;
 		}
-		else{
-			currentProfile.DisplayMovies();
-			personProfile();
-		}
-		option = 0;
-		break;
-	case 2:
-		mainAddMovie();
-		option = 0;
-		break;
-	case 3:
-		cout << "Enter rating: ";
-		cin >> ratingOption;
-		option = 0;
-		filterByRating(ratingOption, option);
-		break;
-	case 4:
-		option = 0;
-		break;
-	case 5:
-		option = 0;
-		break;
-	case 6:
-		option = 0;
-		break;
-	default:
-		option = 0;
-		break;
 	}
 }
 
+void queueMenu(){
+	cout << endl << currentProfile.getLabel() << "'s Profile Movie Queue" << endl;
+	cout << "1. Display Movie Queue" << endl
+		<< "2. Add Movie to Queue" << endl
+		<< "3. Edit Movie in Queue" << endl
+		<< "4. Remove Movie from Queue" << endl
+		<< "5. Search for Movie in Queue" << endl
+		<< "6. Exit Profile" << endl;
+}
+
 void mainAddMovie() {
+	cin.ignore(); // Allows spaces
 	cout << "\n\nEnter movie name: ";
-	cin >> newName;
+	getline(cin, newName);
 
 	cout << "Enter year: ";
 	cin >> newYear;
+	
 	while (cin.fail() || (newYear < 1900 || newYear > 2100)) {
 		cin.clear();
-		cin.ignore();
 		cout << "Not a valid year. Try again." << endl;
 		cout << "Enter year: ";
 		cin >> newYear;
 	}
 
+	cin.ignore();
 	cout << "Category: ";
-	cin >> newCategory;
+	getline(cin, newCategory);
 
-	cout << "Rating: ";
-	cin >> newRating;
+	while(true) {
+		cout << "Rating (PG, PG-13, G, R, NC-17): ";
+		cin >> newRating;
+
+		if ((newRating != "PG") && (newRating != "PG-13") && (newRating != "G") && (newRating != "R") && (newRating != "NC-17")) {
+			cout << "Invailed rating" << endl;
+		}
+		else {
+			break;
+		}
+	}
 
 	cout << "Ranking (1-5): ";
 	cin >> newRanking;
+
 	while (cin.fail() || (newRanking < 1 || newRanking > 5)) {
 		cin.clear();
-		cin.ignore();
 		cout << "Not a valid rating. Try again." << endl;
-		cout << "Ranking: ";
+		cout << "Ranking (1-5): ";
 		cin >> newRanking;
 	}
+
 	cout << endl << endl;
 	movie film(newName, newYear, newRating, newRanking, newCategory);
 	currentProfile.addMovie(film);
 	list[user-1] = currentProfile;
-
 	cout << "Movie added to the Queue!" << endl;
-	personProfile();
 }
 
 void filterByRating(string givenRating, int movieIndex) {

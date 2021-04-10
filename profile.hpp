@@ -27,7 +27,8 @@ public:
 	void removeMovie();
 	void editMovie();
 	void findMovie();
-	void DisplayMovies();
+	void displayMovies();
+	void addCategories(movie& movie);
 
 	profile& setFirst(string first);
 	profile& setLast(string last);

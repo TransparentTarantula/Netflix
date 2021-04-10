@@ -106,7 +106,7 @@ class DoublyLinkedList {
 		return temp->data;
 	}
 
-	void nextNode() {
+	void getNextNode() {
 		current = current->next;
 	}
 
