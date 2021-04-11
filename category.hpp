@@ -11,76 +11,74 @@ using namespace std;
 
 class Category {
 public:
-	// Creates the category list
-	Category() {
-		track = 0;
-		head = nullptr;
-		tail = nullptr;
-	} 
-
-	// Returns the number of categories
-	unsigned short size() {
-		return track;
-	} 
-
-	// Checks if there's a preexisting category
-	bool same(Type& item) {
-		if (track > 0) {
-			Node* temp = head;
-
-			for(short i = 0; i < track; i++) {
-				if(temp->data == item) {
-					return true;
-				}
-				temp = temp->next;
-			}
-			return false; // If no matches are found
-		}
-		else {
-			return false;
-		}
+	Category() { //creates the Category list
+		Node* temp = new Node;
+		header = temp;
+		tail = temp;
 	}
 
-	// Insert category into singly linked list at the end
-	void insert(Type& item) {
-		Node *temp = new Node;
-		temp->data = item;
-		temp->next = nullptr;
+	unsigned short size() { //returns the number of categories
+		return track;
+	}
 
-		if(track == 0) { // Adds to the linked list for the first time
-			head = temp;
-			tail = temp;
-			track++;
+	bool same(Type& other) {
+		if (track > 0) {
+			Node* h = header;
+			for (short i = 0; i < track; i++) {
+				if (h->data == other) {
+					return true;
+				}
+				h = header->next;
+			}
+			return false;
 		}
-		else { // Adds at the end of the linked list
-			if(same(item) != true) {
-				tail->next = temp;
-				tail = tail->next;
+		else
+			return false;
+	}
+
+	void insert(Type& temp) {//makes everything but the head a category
+		if (track == 0) {
+			header->data = temp;
+			tail->data = temp;
+			header->next = nullptr;
+			track++;
+			return;
+		}
+		else if (track > 0) {
+			if (same(temp) != true) {
+				Node* t = new Node;
+				t->data = temp;
+				Node* head = header;
+				while (head->next != nullptr) { //goes to the end of the list to add a 
+					head = head->next;
+				}
+				head->next = t;
+				t->next = nullptr;
 				track++;
 			}
 		}
 	}
 
-	// Returns the head of the list
-	Type& getHead() {
+	Type& getHead() { //gets the profile at the beginning
+		return header->data;
+	}
+
+	Type& getTail() { //gets the profile are the end
+		Node* head = header;
+		while (head->next != nullptr) {
+			head = head->next;
+		}
 		return head->data;
 	}
 
-	// Returns the tail of the list
-	Type& getTail() {
-		return tail->data;
-	}
-
-	// Allows the calling of category as an array
-	Type& operator[](const unsigned short index) {
-		if(index < track && index >= 0) {
-			Node* temp = head;
-
-			for(unsigned short i = 0; i < index; i++) {
-				if(temp != nullptr) {
-					return temp->data;
-				}	
+	Type& operator[](const unsigned short index) { //allows the calling of profile as an array
+		if (index < track && index >= 0) {
+			Node* temp = header;
+			for (unsigned short i = 0; i < index; i++) {
 				temp = temp->next;
+			}
+			if (temp != nullptr) {
+				return temp->data;
 			}
 		}
 		else {
@@ -89,14 +87,13 @@ public:
 	}
 
 private:
-	struct Node {
-		Type data;
+	struct Node { //creation of a singly linked list structure
+		Type data; //following data is the category
 		Node* next;
 	};
-
-	unsigned short track;
-	Node* head;
-	Node* tail;
+	unsigned short track; //keep track of the number of categories
+	Node* header; //head of the list
+	Node* tail; //tail of the list
 };
 
-#endif // !category_hpp
+#endif //!category_hpp

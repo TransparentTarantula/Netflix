@@ -50,7 +50,7 @@ public:
     
     friend ostream& operator<<(ostream& lhs,Type& rhs);
     
-    void removieMovie(unsigned short index) {
+    void removeMovie(unsigned short index) {
         list.erase(index);
     }
     
@@ -58,10 +58,10 @@ public:
         unsigned short year, rank;
         string name, rating, category;
         cin.ignore();
-        printf("Enter movie name: ")
+        printf("Enter movie name: ");
         getline(cin, name);
         while (true) {
-            printf("Enter year: ")
+            printf("Enter year: ");
             cin >> year;
             if (year < 1800 || year > 2100)
                 continue;
@@ -69,10 +69,10 @@ public:
                 break;
         }
         cin.ignore();
-        printf("Enter Category: ")
+        printf("Enter Category: ");
         getline(cin, category);
         while (true) {
-            printf("Rating: ")
+            printf("Rating: ");
             getline(cin, rating);
             if ((rating != "PG") && (rating != "PG-13") && (rating != "G") && (rating != "R") && (rating != "NC-17")) {
                 continue;
@@ -81,7 +81,7 @@ public:
                 break;
         }
         while (true) {
-            printf("Ranking: ")
+            printf("Ranking: ");
             cin >> rank;
             if (rank < 0 || rank > 5) {
                 continue;
