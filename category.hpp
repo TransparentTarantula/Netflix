@@ -13,22 +13,22 @@ class Category {
 public:
 	Category() { //creates the Category list
 		Node* temp = new Node;
-		head = temp;
-		tail = temp;
+		header = temp;
+		track = 0;
 	}
 
 	unsigned short size() { //returns the number of categories
 		return track;
 	}
 
-	bool same(Type& other) {    //function checks to see if category already exists
+	bool same(Type& other) {
 		if (track > 0) {
-			Node* h = head;
+			Node* h = header;
 			for (short i = 0; i < track; i++) {
 				if (h->data == other) {
 					return true;
 				}
-				h = head->next;
+				h = header->next;
 			}
 			return false;
 		}
@@ -38,9 +38,8 @@ public:
 
 	void insert(Type& temp) {//makes everything but the head a category
 		if (track == 0) {
-			head->data = temp;
-			tail->data = temp;
-			head->next = nullptr;
+			header->data = temp;
+			header->next = nullptr;
 			track++;
 			return;
 		}
@@ -48,11 +47,11 @@ public:
 			if (same(temp) != true) {
 				Node* t = new Node;
 				t->data = temp;
-				Node* h = head;
-				while (h->next != nullptr) { //goes to the end of the list to add a category
-					h = h->next;
+				Node* head = header;
+				while (head->next != nullptr) { //goes to the end of the list to add a 
+					head = head->next;
 				}
-				h->next = t;
+				head->next = t;
 				t->next = nullptr;
 				track++;
 			}
@@ -60,20 +59,20 @@ public:
 	}
 
 	Type& getHead() { //gets the profile at the beginning
-		return head->data;
+		return header->data;
 	}
 
-	Type& getTail() { //gets the profile at the end
-		Node* h1 = head;
-		while (h1->next != nullptr) {
-			h1 = h1->next;
+	Type& getTail() { //gets the profile are the end
+		Node* head = header;
+		while (head->next != nullptr) {
+			head = head->next;
 		}
-		return h1->data;
+		return head->data;
 	}
 
 	Type& operator[](const unsigned short index) { //allows the calling of profile as an array
 		if (index < track && index >= 0) {
-			Node* temp = head;
+			Node* temp = header;
 			for (unsigned short i = 0; i < index; i++) {
 				temp = temp->next;
 			}
@@ -84,8 +83,6 @@ public:
 		else {
 			throw out_of_range("Out of Range");
 		}
-        Node *temp = head;
-        return temp->data;
 	}
 
 private:
@@ -94,10 +91,7 @@ private:
 		Node* next;
 	};
 	unsigned short track; //keep track of the number of categories
-	Node* head; //head of the list
-	Node* tail; //tail of the list
+	Node* header; //head of the list
 };
 
-
-
-#endif 
+#endif //!category_hpp
