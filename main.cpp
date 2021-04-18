@@ -143,6 +143,7 @@ void profileDisplay(unsigned short index, DoublyLinkedProfile& passProfile) {
 		cin >> choice;
 
 		if (choice < 1 || choice > 6) { //makes sure that the chosen option is available
+			menu = false;
 			continue;
 		}
 
@@ -248,6 +249,7 @@ void MovieDisplay(unsigned short index, DoublyLinkedProfile& passProfile) {
 		string x; //can't initialize string inside switch statement
 
 		if (choice < 1 || choice > 6) { //makes sure user choice is valid
+			menu = false;
 			continue;
 		}
 
