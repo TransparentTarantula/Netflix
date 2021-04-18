@@ -139,12 +139,16 @@ void profileDisplay(unsigned short index, DoublyLinkedProfile& passProfile) {
 
 	while (menu) {
 		queueMenu();
-		cout << endl << "Enter Option: ";
-		cin >> choice;
+		while (true) {
+			cout << "Enter Option: ";
+			cin.clear();
+			cin.ignore();
+			cin >> choice;
 
-		if (choice < 1 || choice > 6) { //makes sure that the chosen option is available
-			menu = false;
-			continue;
+			if (choice < 0 || choice > 5)
+				continue;
+			else
+				break;
 		}
 
 		switch (choice) {
