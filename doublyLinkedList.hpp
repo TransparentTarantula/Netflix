@@ -1,149 +1,120 @@
-#pragma once
+#ifndef doubly_hpp
+#define doubly_hpp
+
+#include <string>
+#include <iostream>
 #include <stdio.h>
-#include <stdexcept>
 #include <exception>
-#include <stdlib.h>
+#include "profile.hpp"
 
 using namespace std;
 
-//profile - category - movies each have doublylinkedlist
-template <typename Type>
-class DoublyLinkedList {
-	public:
-	DoublyLinkedList() {
-		n = 0;
-		header  = nullptr;
-		tail = nullptr;
-	}
-	
-	unsigned int size() {
-		return n;
+class DoublyLinkedProfile { //doubly LinkedList of the profile and not template because only the other lists are singly linked lists.
+public:
+	DoublyLinkedProfile() { //initializes the list with previous to nullptr
+		this->track = 0;
+		Node* temp = new Node;
+		head = temp;
+		tail = temp;
+		head->prev = nullptr;
+		tail->prev = nullptr;
 	}
 
-	bool isEmpty() {
-		return n == 0 ? true : false;
+	unsigned short size() { //returns the number of profiles
+		return track;
 	}
 
-	void insert(Type& item) {
-		bool tempBool = true ;
-		if (n == 0) {
-			Node* node = new Node;
-			node->data = item;
-			node->next = nullptr;
-			node->prev = nullptr;
-			header = node;
-			current = node;
-			tail = node;
-			n++;
-			tempBool = false;
+	void insert(profile& other) { //function to insert profiles
+		if (track == 0) {//initializes for the head only
+			head->data = other;
+			tail->data = other;
+			head->next = nullptr;
+			head->prev = nullptr;
+			track++;
 		}
-		else {
-			Node* temp = header;
-			for (unsigned short i = 0; i < n; i++) {
-				if (temp->data == item) {
-					temp->data = item;
-					tempBool = false;
-				}
+		else {//initializes for anything after the head
+			Node* temp = new Node;
+			temp->data = other;
+			Node* h = head;
+			while (h->next != nullptr) { //goes to the end of the list to add a new profile
+				h = h->next;
+			}
+			temp->prev = h;
+			h->next = temp;
+			temp->next = nullptr;
+			track++;
+		}
+	}
+
+	void erase(unsigned short index) { //remember to subract 1 on the other side when calling because the array starts at 0
+		if (index > 0 && index < track) { //deletes profiles that are not at the head
+			Node* temp = head;
+			for (unsigned short i = 0; i < index - 1; i++) {
+				temp = temp->next;  //moving through the linked list until the index is reached
+			}
+			Node* temp2 = head;
+			for (unsigned short i = 0; i < index + 1; i++) {
+				temp2 = temp2->next;
+			}
+			if (temp2 != nullptr) {
+				temp->next = temp2;
+				temp2->prev = temp; //rearranging pointers
+			}
+			else {
+				temp->next = nullptr;
+			}
+			track--;
+		}
+		else if (index == 0) { //deleting head if index is 0
+			Node* temp = head;
+			head = temp->next;
+			delete temp;
+			track--;
+		}
+	}
+
+	profile& getHead() { //gets the profile at the beginning
+		return head->data;
+	}
+
+	profile& getTail() { //gets the profile at the end
+		Node* h = head;
+		while (h->next != nullptr) {
+			h = head->next;
+		}
+		return head->data;
+	}
+
+	profile& operator[](const unsigned short index) { //allows the calling of profile as an array
+		if (index < track && index >= 0) {
+			Node* temp = head;
+			for (unsigned short i = 0; i < index; i++) {
 				temp = temp->next;
 			}
-			if (tempBool == true) {
-				Node* temp = new Node;
-				temp->data = item;
-				temp->next = nullptr;
-				temp->prev = tail;
-				temp->prev->next = temp;
-				tail = temp;
-				n++;
+			if (index == 0) {
+				return temp->data;
+			}
+			if (temp != nullptr) {
+				return temp->data;
 			}
 		}
-
-	}
-
-	unsigned int find(Type& e) {
-		/*bool temp = true;
-		t = header;
-		for (unsigned short i = 0; i < n; i++) {
-			if (t->data == e) {
-				temp = false;
-				return i;
-			}
-			t = t->next;
+		else {
+			throw out_of_range("Out of Range");
 		}
-		if (temp == true) {
-			throw exception("exception");
-		}
-		return 0;*/
+        Node* temp = head;
+        return temp->data;  //typically never reaches here, returns head if it does
 	}
 
-	void erase(Type& item) {
-		/*erases movie from a person's profile*/
-        bool tempBool = true;
-        Node* temp = header;
-        Node* node = new Node;
-        node->data = item;
-        if (temp->data == node->data)
-        {
-            temp = node->next;
-        }
-        if (node->next != NULL)
-        {
-            node->next->prev = node->prev;
-        }
-        if (node->prev != NULL)
-        {
-            node->prev->next = node->next;
-        }
-        node = NULL;
-        free (node);
-        n--;
-        return;
-	}
-
-	/*void show() {
-	useles function
-	}*/
-
-	void sort() {
-		/*sorts movies!*/
-	}
-
-	Type& getHead() {
-		return this->header->data;
-	}
-
-	Type& getTail() {
-		return this->tail->data;
-	}
-
-	Type& operator[](const unsigned int index) {
-		Node* temp = this->header;
-		for (int i = 0; i < index; i++) {
-			if (this->temp == nullptr) {
-				throw out_of_range("out of range biatch");
-				break;
-			}
-			temp = temp->next;
-		}
-		return temp->data;
-	}
-
-	void nextNode() {
-		current = current->next;
-	}
-
-	Type& getCurrentNode() {
-		return current->data;
-	}
-
-	private:
-	struct Node {
-		Type data;
+private:
+	struct Node { //creates the structure node with data, tail and head
+		profile data;
 		Node* prev;
 		Node* next;
 	};
 
-	unsigned int n;
-	Node* header;
-	Node* tail;
-	Node* current;
+	unsigned short track; //keeps track of the number of profiles
+	Node* head; //head of the list
+	Node* tail; //tail of the list
 };
+
+#endif 
