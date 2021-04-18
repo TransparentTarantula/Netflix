@@ -9,9 +9,9 @@
 
 using namespace std;
 
-class movieList { //singly linked list for the movies
+class movielist { //singly linked list for the movies
 public:
-	movieList() { //creates the movie list
+	movielist() { //creates the movie list
 		Node* temp = new Node;
 		head = temp;
 		tail = temp;
@@ -21,7 +21,7 @@ public:
 		return track;
 	}
 
-	bool check(Movie& other) {
+	bool same(Movie& other) {
 		if (track > 0) {
 			Node* h = head;
 			for (short i = 0; i < track; i++) {
@@ -46,14 +46,14 @@ public:
 		}
 		else if (track > 0)
 		{
-			if (check(temp) != true) {
+			if (same(temp) != true) {
 				Node* t = new Node;
 				t->data = temp;
-				Node* h1 = head;
-				while (h1->next != nullptr) { //goes to the end of the list to add a new profile
-					head = head->next;
+				Node* h = head;
+				while (h->next != nullptr) { //goes to the end of the list to add a new profile
+					h = h->next;
 				}
-				h1->next = t;
+				h->next = t;
 				t->next = nullptr;
 				track++;
 			}
@@ -62,19 +62,19 @@ public:
 
 	void erase(unsigned short index) {
 		if (index > 0 && index < track) {
-			Node* t1 = head;
+			Node* temp = head;
 			for (unsigned short i = 0; i < index - 1; i++) {
-				t1 = t1->next;
+				temp = temp->next;
 			}
-			Node* t2 = head;
+			Node* temp2 = head;
 			for (unsigned short i = 0; i < index + 1; i++) {
-				t2 = t2->next;
+				temp2 = temp2->next;
 			}
-			t2->next = t2;
+			temp->next = temp2;
 		}
 		else if (index == 0) {
-			Node* t = head;
-			head = t->next;
+			Node* temp = head;
+			head = temp->next;
 		}
 		track--;
 	}
@@ -93,17 +93,21 @@ public:
 
 	Movie& operator[](const unsigned short index) { //allows the calling of profile as an array
 		if (index < track && index >= 0) {
-			Node* t = head;
+			Node* temp = head;
 			for (unsigned short i = 0; i < index; i++) {
-				t = t->next;
+				temp = temp->next;
 			}
-			if (t != nullptr) {
-				return t->data;
+			if (temp != nullptr) {
+				return temp->data;
 			}
 		}
 		else {
 			throw out_of_range("Out of Range");
+            Node *temp = head;
+            return temp->data;
 		}
+        Node* temp = head;
+        return temp->data;
 	}
 
 private:
@@ -111,9 +115,9 @@ private:
 		Movie data; //following data is the movies that have the same category
 		Node* next;
 	};
-	unsigned short track; //number of films 
+	unsigned short track; //number of movielists
 	Node* head;
 	Node* tail;
 };
 
-#endif 
+#endif
