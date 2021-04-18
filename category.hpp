@@ -14,7 +14,7 @@ public:
 	Category() { //creates the Category list
 		Node* temp = new Node;
 		header = temp;
-		tail = temp;
+		track = 0;
 	}
 
 	unsigned short size() { //returns the number of categories
@@ -39,7 +39,6 @@ public:
 	void insert(Type& temp) {//makes everything but the head a category
 		if (track == 0) {
 			header->data = temp;
-			tail->data = temp;
 			header->next = nullptr;
 			track++;
 			return;
@@ -93,7 +92,6 @@ private:
 	};
 	unsigned short track; //keep track of the number of categories
 	Node* header; //head of the list
-	Node* tail; //tail of the list
 };
 
 #endif //!category_hpp
