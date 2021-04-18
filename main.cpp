@@ -136,9 +136,9 @@ void profileDisplay(unsigned short index, DoublyLinkedProfile& passProfile) {
 	unsigned choice = 0;
 	bool menu = true; //determines whether to leave or stay in this menu
 	cout << endl << passProfile[index] << " Movie Queue" << endl << endl;
-	queueMenu();
+	
 	while (menu) {
-		
+		queueMenu();
 		while (true) {
 			cout << "Enter Option: ";
 			cin.clear();
