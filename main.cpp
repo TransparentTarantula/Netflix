@@ -248,13 +248,18 @@ void MovieDisplay(unsigned short index, DoublyLinkedProfile& passProfile) {
 
 	while (menu) {
 		MDisplay();
-		cout << endl << "Enter Option: ";
-		cin >> choice;
 		string x; //can't initialize string inside switch statement
 
-		if (choice < 1 || choice > 6) { //makes sure user choice is valid
-			menu = false;
-			continue;
+		while (true) {
+			cout << "Enter Option: ";
+			cin.clear();
+			cin.ignore();
+			cin >> choice;
+
+			if (choice < 1 || choice > 6)
+				continue;
+			else
+				break;
 		}
 
 		switch (choice) {
